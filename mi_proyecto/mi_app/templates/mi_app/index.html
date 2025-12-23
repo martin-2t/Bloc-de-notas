@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi página</title>
+
+<link rel="stylesheet" href="{% static 'mi_app/css/index.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="{% static 'imagenes/favicon.png' %}">
+</head>
+<body>
+
+<div class="app-container">
+
+    <header class="top-bar">
+        <h1>Mis tareas</h1>
+
+        <div class="user-info">
+            <span>{{ request.user.username }}</span>
+            <a href="{% url 'logout' %}">Cerrar sesión</a>
+        </div>
+    </header>
+
+    <form method="POST" class="task-form">
+        {% csrf_token %}
+        <input type="text" name="nombre" placeholder="Nueva tarea" required>
+        <button type="submit">Agregar</button>
+    </form>
+
+    <ul class="task-list">
+        {% for tarea in tareas %}
+        <li class="task-item {% if tarea.completada %}done{% endif %}">
+            <div class="task-main">
+                <span class="task-name">{{ tarea.nombre }}</span>
+                <span class="task-status">
+                    {% if tarea.completada %}✅{% else %}❌{% endif %}
+                </span>
+            </div>
+
+            <small>{{ tarea.fecha_creacion|date:"d/m/Y H:i" }}</small>
+
+            <div class="task-actions">
+                {% if not tarea.completada %}
+                <form method="POST" action="{% url 'completar_tarea' tarea.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Completar</button>
+                </form>
+                {% endif %}
+
+                <form method="POST" action="{% url 'eliminar_tarea' tarea.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete">🗑</button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+</body>
+
+</html>
