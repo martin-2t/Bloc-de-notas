@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'mi_proyecto.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3'
+        default=os.environ.get('postgresql://db_disign_pksg_user:DXOcHaBraViEwlvVRFBuIhzNjSj0pv2k@dpg-d57vpmje5dus73dkdtug-a/db_disign_pksg')  # Django tomará la URL de Render
     )
 }
 
