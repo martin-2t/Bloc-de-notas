@@ -1,16 +1,18 @@
-# Entorno virtual
-venv/
-.env/
-
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Virtual env
+venv/
 
 # Django
 db.sqlite3
 staticfiles/
 
-# IDE / SO
-.vscode/
-.idea/
+# OS
 .DS_Store
+Thumbs.db
